@@ -314,3 +314,25 @@ namespace newProject.Controllers
         }
     }
 }
+public static bool CreateSuccessMessage(List<string> listTo, List<string> listCC, string content, string subject)
+{
+    try
+    {
+
+        var listEmail = new List<string>();
+        var serviceSendEmail = new ServiceSendEmail.ServiceSendEmailClient();
+        serviceSendEmail.SendEmailAsync(new ServiceSendEmail.EmailMessage
+        {
+            Cc = listCC.ToArray(),
+            Subject = $"[MBO SYSTEM] {subject} ",
+            EmailContent = content,
+            SendTo = listTo.ToArray(),
+            SystemName = "MBO System"
+        });
+        return true;
+    }
+    catch (DbException ex)
+    {
+        return false;
+    }
+}
